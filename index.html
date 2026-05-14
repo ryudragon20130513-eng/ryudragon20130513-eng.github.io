@@ -291,11 +291,23 @@ async function openAnalysis() {
       body: JSON.stringify({
         model:"claude-sonnet-4-20250514",
         max_tokens:1000,
-        messages:[{role:"user",content:`恋愛相性診断の詳細レポートをJSONのみで返してください（\`\`\`不要）。
-名前1: ${n1} / 性格: ${selectedTraits1.length>0?selectedTraits1.join('、'):'不明'}
-名前2: ${n2} / 性格: ${selectedTraits2.length>0?selectedTraits2.join('、'):'不明'}
+        messages:[{role:"user",content:`あなたは恋愛相性診断の専門AIです。以下の情報をもとに、リアルで読み応えのある詳細レポートをJSONのみで出力してください（\`\`\`不要）。
+
+名前1: ${n1}
+性格1: ${selectedTraits1.length>0?selectedTraits1.join('、'):'不明'}
+名前2: ${n2}
+性格2: ${selectedTraits2.length>0?selectedTraits2.join('、'):'不明'}
 相性スコア: ${currentScore}%
-{"nameMatch":"名前の響きや画数の相性（2文）","personalityMatch":"性格の組み合わせ分析（3文）","strengths":["強み1","強み2","強み3"],"cautions":["注意点1","注意点2"],"advice":"アドバイス（2文）","verdict":"一言診断"}`}]
+
+以下のルールで書いてください：
+- nameMatch: 名前の音の響き・対比・印象から相性を分析。具体的に2〜3文。
+- personalityMatch: 二人の性格の組み合わせを「補完型」「共鳴型」などの観点で分析。「${n1}が〜、${n2}が〜」と名前を使って3〜4文で具体的に。
+- strengths: 3つ。それぞれ1〜2文で具体的なシーンを想像させるように書く。
+- cautions: 2つ。責める口調でなく「〜を意識すると◎」のようにやさしく。
+- advice: 二人への前向きなアドバイスを2〜3文。スコアの数字にも触れること。
+- verdict: 二人の関係を一言で表すキャッチコピー（例：「笑顔が絶えない補完関係」）
+
+{"nameMatch":"...","personalityMatch":"...","strengths":["...","...","..."],"cautions":["...","..."],"advice":"...","verdict":"..."}`}]
       })
     });
     const data = await res.json();
