@@ -212,7 +212,14 @@ async function doSubmit() {
   btn.disabled = true;
   btn.innerHTML = '<div style="width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite"></div> AIが分析中...';
 
-  const score = Math.floor(Math.random()*61)+30;
+  // 同じ名前の組み合わせは常に同じスコアが出る
+  const key = [n1, n2].sort().join('|');
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) {
+    hash = ((hash << 5) - hash) + key.charCodeAt(i);
+    hash |= 0;
+  }
+  const score = 30 + Math.abs(hash) % 61;
   currentScore = score;
 
   // 🔔 龍之介に通知（バックグラウンド）
